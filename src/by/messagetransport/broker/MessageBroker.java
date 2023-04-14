@@ -14,9 +14,26 @@ public class MessageBroker {
         this.maxStoredMessages = maxStoredMessages;
     }
     public synchronized void produce (Message message) {
+        while (this.messagesToBeConsumed.size() >= this.maxStoredMessages) {
+            try {
+                super.wait();
+            }catch (InterruptedException interruptedException) {
+                Thread.currentThread().interrupt();
+            }
+        }
         this.messagesToBeConsumed.add(message);
+        super.notify();
     }
     public synchronized Message consume() {
-        return this.messagesToBeConsumed.poll();
+        while (this.messagesToBeConsumed.isEmpty()) {
+            try {
+                super.wait();
+            }catch (InterruptedException interruptedException) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        Message message = this.messagesToBeConsumed.poll();
+        super.notify();
+        return message;
     }
 }
