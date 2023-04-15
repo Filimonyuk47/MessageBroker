@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 public class MessageProdusingTask implements Runnable {
     private static final String MESSAGE = "Message '%s' is produced \n";
-    private static final int SECONDS_SLEEP = 3;
+    private static final int SECONDS_SLEEP = 1;
     private MessageFactory messageFactory;
     private MessageBroker messageBroker;
     public MessageProdusingTask(MessageBroker messageBroker) {

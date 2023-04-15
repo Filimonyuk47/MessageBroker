@@ -6,7 +6,7 @@ import by.messagetransport.broker.MessageBroker;
 import java.util.concurrent.TimeUnit;
 
 public class MessageConsumingTask implements Runnable {
-    private static final int SECONDS_SLEEP = 1;
+    private static final int SECONDS_SLEEP = 3;
     private static final String MESSAGE = "Message '%s' is consumed. \n";
     private MessageBroker messageBroker;
     public MessageConsumingTask(MessageBroker messageBroker) {
