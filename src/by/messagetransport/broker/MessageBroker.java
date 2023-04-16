@@ -35,6 +35,6 @@ public class MessageBroker {
         Message message = this.messagesToBeConsumed.poll();
         super.notify();
         return message;
-        //wdqw
+
     }
 }
