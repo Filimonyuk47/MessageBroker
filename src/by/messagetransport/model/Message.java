@@ -1,4 +1,4 @@
-package by.messagetransport;
+package by.messagetransport.model;
 
 import java.util.Objects;
 

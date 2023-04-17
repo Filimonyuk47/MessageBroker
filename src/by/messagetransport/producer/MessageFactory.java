@@ -1,6 +1,6 @@
 package by.messagetransport.producer;
 
-import by.messagetransport.Message;
+import by.messagetransport.model.Message;
 
 public class MessageFactory {
     private static final int INITIAL_MESSAGE = 1;

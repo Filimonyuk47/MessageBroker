@@ -2,21 +2,35 @@ package by.messagetransport;
 
 import by.messagetransport.broker.MessageBroker;
 import by.messagetransport.consumer.MessageConsumingTask;
-import by.messagetransport.producer.MessageProdusingTask;
+import by.messagetransport.producer.MessageFactory;
+import by.messagetransport.producer.MessageProducingTask;
 
 import java.util.Arrays;
-import java.util.concurrent.ThreadFactory;
-import java.util.function.IntConsumer;
-import java.util.stream.IntStream;
 
 public class Main {
     public static void main(String[] args) {
-        int brokerMax = 5;
+        int brokerMax = 15;
         MessageBroker messageBroker = new MessageBroker(brokerMax);
-        Thread producingThread = new Thread(new MessageProdusingTask(messageBroker));
-        Thread consumingThread = new Thread(new MessageConsumingTask(messageBroker));
+        MessageFactory messageFactory = new MessageFactory();
 
-        producingThread.start();
-        consumingThread.start();
+        Thread firstProducingThread = new Thread(new MessageProducingTask(messageBroker, messageFactory,
+                brokerMax, "PRODUCER 1"));
+        Thread secondProducingThread = new Thread(new MessageProducingTask(messageBroker, messageFactory,
+                10, "PRODUCER 2"));
+        Thread thirdProducingThread = new Thread(new MessageProducingTask(messageBroker, messageFactory,
+                5,"PRODUCER 3"));
+
+        Thread firstConsumingThread = new Thread(new MessageConsumingTask(messageBroker,
+                0, "CONSUMER 1"));
+        Thread secondConsumingThread = new Thread(new MessageConsumingTask(messageBroker,
+                6, "CONSUMER 2"));
+        Thread thirdConsumingThread = new Thread(new MessageConsumingTask(messageBroker,
+                11, "CONSUMER 3"));
+
+        startThreads(firstProducingThread,secondProducingThread,thirdProducingThread,
+                firstConsumingThread,secondConsumingThread,thirdConsumingThread);
+    }
+    public static void startThreads(Thread... threads) {
+        Arrays.stream(threads).forEach(Thread::start);
     }
 }
